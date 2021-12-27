@@ -1,17 +1,18 @@
 fun main() {
-    println(Day1().numberOfIncreasesIn(day1Input))
+    println(Day1Part2().numberOfIncreasesIn(day2Input))
 }
 
-class Day1 {
+class Day1Part2 {
     fun numberOfIncreasesIn(input: List<Int>): Int {
-        return input.fold(0 to Int.MAX_VALUE) { increasesAndPrevious, next ->
+        val windowedSums = input.windowed(3, 1).map { it.sum() }
+        return windowedSums.fold(0 to Int.MAX_VALUE) { increasesAndPrevious, next ->
             val increment = if (next > increasesAndPrevious.second) 1 else 0
             increasesAndPrevious.first + increment to next
         }.first
     }
 }
 
-val day1Input = """
+val day2Input = """
     169
     150
     158
