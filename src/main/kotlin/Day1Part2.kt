@@ -1,5 +1,5 @@
 fun main() {
-    println(Day1Part2().numberOfIncreasesIn(day2Input))
+    println(Day1Part2().numberOfIncreasesIn(day1Part2Input))
 }
 
 class Day1Part2 {
@@ -12,7 +12,7 @@ class Day1Part2 {
     }
 }
 
-val day2Input = """
+val day1Part2Input = """
     169
     150
     158
