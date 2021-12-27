@@ -9,15 +9,17 @@ class Day3Part2 {
         return oxygenGeneratorRating * co2ScrubberRating
     }
 
-    private tailrec fun shrink(input: List<List<Char>>, position: Int, bitCriteria: Map<Char, Int>.() -> Map.Entry<Char, Int>, tieBreaker: List<Char>.() -> Char): Int {
+    private tailrec fun shrink(input: List<List<Char>>, columnIndex: Int, bitCriteria: Map<Char, Int>.() -> Map.Entry<Char, Int>, tieBreaker: List<Char>.() -> Char): Int {
         return if (input.size == 1) {
-            input.first().joinToString(separator = "").toInt(2)
+            input.first().toDecimal()
         } else {
-            val column = input.map { it[position] }
+            val column = input.map { it[columnIndex] }
             val charToCount = column.groupBy { it }.mapValues { it.value.size }
             val maxCount = charToCount.bitCriteria().value
             val mostCommonChar = charToCount.filterValues { it == maxCount }.map { it.key }.tieBreaker()
-            return shrink(input.filter { it[position] == mostCommonChar }, position + 1, bitCriteria, tieBreaker)
+            return shrink(input.filter { it[columnIndex] == mostCommonChar }, columnIndex + 1, bitCriteria, tieBreaker)
         }
     }
+
+    private fun List<Char>.toDecimal(): Int = this.joinToString(separator = "").toInt(2)
 }
