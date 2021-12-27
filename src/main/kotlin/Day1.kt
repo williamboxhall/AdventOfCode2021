@@ -5,11 +5,7 @@ fun main() {
 class Day1 {
     fun numberOfIncreasesIn(day1Input: List<Int>): Int {
         return day1Input.fold(0 to Int.MAX_VALUE) { increasesAndPrevious, next ->
-            val increment = if (next > increasesAndPrevious.second) {
-                1
-            } else {
-                0
-            }
+            val increment = if (next > increasesAndPrevious.second) 1 else 0
             increasesAndPrevious.first + increment to next
         }.first
     }
