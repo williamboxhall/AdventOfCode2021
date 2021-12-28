@@ -1,9 +1,9 @@
 fun main() {
-    println(Day4().boards(day4Input))
+    println(Day4().winnerScore(day4Input))
 }
 
 class Day4 {
-    fun boards(input: Game): Int? {
+    fun winnerScore(input: Game): Int? {
         val boards = input.boards
         val progressiveDraws = input.draw.scan(emptySet<Int>()) { acc, num -> acc + num }
         progressiveDraws.forEach { draw ->
