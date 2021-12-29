@@ -1,5 +1,3 @@
-import java.lang.IllegalStateException
-
 fun main() {
     println(Day5().numLineOverlaps(day5Input))
 }
@@ -32,19 +30,28 @@ data class Line(val start: Coordinates, val end: Coordinates) {
             val range = if (start.x < end.x) start.x..end.x else end.x..start.x
             range.toList().map { Coordinates(x = it, y = start.y) }.toSet()
         } else {
-            throw IllegalStateException("Should always be horizontal or vertical lines, but was start:$start, end:$end")
+            val yRange = if (start.y < end.y) start.y..end.y else start.y downTo end.y
+            val xRange = if (start.x < end.x) start.x..end.x else start.x downTo end.x
+            yRange.zip(xRange).map { (y, x) -> Coordinates(x = x, y = y) }.toSet()
         }
     }
 
     fun toMatrix(): List<List<Int>> {
         val points = discretePoints()
-        val yValues = points.map { it.y }
-        val xValues = points.map { it.x }
-        return List(cols) { j ->
+        val matrix = List(cols) { j ->
             List(rows) { i ->
-                if (yValues.contains(j) && xValues.contains(i)) 1 else 0
+                if (points.contains(Coordinates(x = i, y = j))) 1 else 0
             }
         }
+        println("line: $this")
+        println("matrix:")
+        println(matrix.toPrintableString())
+        println()
+        return matrix
+    }
+
+    override fun toString(): String {
+        return "$start -> $end"
     }
 }
 
