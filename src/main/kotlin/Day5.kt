@@ -7,12 +7,9 @@ const val cols = 1000
 
 class Day5 {
     fun numLineOverlaps(lines: Set<Line>): Int {
-        println(lines)
         val onlyHorizontalOrVertical = lines.filter { it.start.x == it.end.x || it.start.y == it.end.y }
-        val linesAsMatrixes = onlyHorizontalOrVertical.mapIndexed { index, line -> println(index); line.toMatrix() }
-        print("calculated lines matrixes")
+        val linesAsMatrixes = onlyHorizontalOrVertical.map { it.toMatrix() }
         val combinedMatrix = linesAsMatrixes.fold(emptyMatrix(rows, cols)) { acc, matrix -> acc add matrix }
-        println(combinedMatrix.toPrintableString())
         return combinedMatrix.flatten().filter { it >= 2 }.count()
     }
 }
@@ -38,16 +35,11 @@ data class Line(val start: Coordinates, val end: Coordinates) {
 
     fun toMatrix(): List<List<Int>> {
         val points = discretePoints()
-        val matrix = List(cols) { j ->
+        return List(cols) { j ->
             List(rows) { i ->
                 if (points.contains(Coordinates(x = i, y = j))) 1 else 0
             }
         }
-        println("line: $this")
-        println("matrix:")
-        println(matrix.toPrintableString())
-        println()
-        return matrix
     }
 
     override fun toString(): String {
@@ -59,14 +51,6 @@ infix fun List<List<Int>>.add(other: List<List<Int>>): List<List<Int>> {
     return List(cols) { j ->
         List(rows) { i ->
             this[j][i] + other[j][i]
-        }
-    }
-}
-
-fun Coordinates.toMatrix(): List<List<Int>> {
-    return List(cols) { j ->
-        List(rows) { i ->
-            if (j == y && i == x) 1 else 0
         }
     }
 }
