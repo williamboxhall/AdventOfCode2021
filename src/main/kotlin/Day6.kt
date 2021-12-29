@@ -1,5 +1,5 @@
 fun main() {
-    println(Day6().numFish(day6Input, 80))
+    println(Day6().numFish(day6Input, 256))
 }
 
 class Day6 {
