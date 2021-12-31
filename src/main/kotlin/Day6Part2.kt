@@ -4,19 +4,19 @@ fun main() {
 
 class Day6Part2 {
     fun numFish(fish: List<Int>, days: Int): Long {
-        val inputDayToNumber = fish.groupBy { it }.mapValues { it.value.size.toLong() }
-        val resultDayToNumber = iterate(inputDayToNumber, 0, days)
-        return resultDayToNumber.filterKeys { it >= days }.map { it.value }.sum()
+        val inputDayToNumBirths = fish.groupBy { it }.mapValues { it.value.size.toLong() }
+        val resultDayToNumBirths = iterate(inputDayToNumBirths, 0, days)
+        return resultDayToNumBirths.filterKeys { it >= days }.map { it.value }.sum()
     }
 
-    private tailrec fun iterate(dayToNumber: Map<Int, Long>, day: Int, lastDay: Int): Map<Int, Long> {
-        println("$day - ${dayToNumber.mapKeys { it.key - day }.filterKeys { it >= 0 }.filterValues { it > 0 }} - births=${dayToNumber[day] ?: 0}")
-        return if (day == lastDay) dayToNumber else {
-            val numBirths = dayToNumber[day] ?: 0L
+    private tailrec fun iterate(dayToNumBirths: Map<Int, Long>, day: Int, lastDay: Int): Map<Int, Long> {
+        println("$day - ${dayToNumBirths.mapKeys { it.key - day }.filterKeys { it >= 0 }.filterValues { it > 0 }} - births=${dayToNumBirths[day] ?: 0}")
+        return if (day == lastDay) dayToNumBirths else {
+            val numBirths = dayToNumBirths[day] ?: 0L
             val parentBirthDay = day + 7
             val childBirthDay = day + 9
-            val existingParentBirthdays = dayToNumber[parentBirthDay] ?: 0L
-            val withExistingParents = dayToNumber + (parentBirthDay to (numBirths + existingParentBirthdays))
+            val existingParentBirthdays = dayToNumBirths[parentBirthDay] ?: 0L
+            val withExistingParents = dayToNumBirths + (parentBirthDay to (numBirths + existingParentBirthdays))
             val withChildren = withExistingParents + (childBirthDay to numBirths)
             return iterate(withChildren, day + 1, lastDay)
         }
