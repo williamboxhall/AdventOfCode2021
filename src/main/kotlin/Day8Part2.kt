@@ -1,7 +1,7 @@
 import java.lang.IllegalArgumentException
 
 fun main() {
-    println(Day8Part2().sumOutputs(day8SampleInput))
+    println(Day8Part2().sumOutputs(day8Input))
 }
 
 class Day8Part2 {
@@ -32,7 +32,7 @@ class Day8Part2 {
             }
             val digitPatterns = obviousDigitPatterns + nonObviousDigitPatterns
             val patternToDigit = digitPatterns.entries.associateBy({ it.value }) { it.key }
-            val outputValues = it.inputs.map { it.toSet() }.map { patternToDigit.getValue(it) }
+            val outputValues = it.outputs.map { it.toSet() }.map { patternToDigit.getValue(it) }
             val output = outputValues[0] * 1000 + outputValues[1] * 100 + outputValues[2] * 10 + outputValues[3]
             output
         }
