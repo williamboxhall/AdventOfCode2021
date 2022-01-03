@@ -8,7 +8,7 @@ class Day8Part2 {
     fun sumOutputs(entries: List<Entry>): Int {
         val outputs = entries.map {
             val inputsAsSegments = it.inputs.map { it.toSet() }
-            val obviousDigitPatterns = inputsAsSegments.fold(emptyMap<Int, Set<Char>>()) { map, segments ->
+            val obviousDigitToSegments = inputsAsSegments.fold(emptyMap<Int, Set<Char>>()) { map, segments ->
                 when (segments.size) {
                     2 -> map + (1 to segments)
                     3 -> map + (7 to segments)
@@ -17,9 +17,9 @@ class Day8Part2 {
                     else -> map
                 }
             }
-            val sevenPattern = obviousDigitPatterns.getValue(7)
-            val fourPattern = obviousDigitPatterns.getValue(4)
-            val nonObviousDigitPatterns = (inputsAsSegments - obviousDigitPatterns.values).fold(emptyMap<Int, Set<Char>>()) { map, segments ->
+            val sevenPattern = obviousDigitToSegments.getValue(7)
+            val fourPattern = obviousDigitToSegments.getValue(4)
+            val nonObviousDigitToSegments = (inputsAsSegments - obviousDigitToSegments.values).fold(emptyMap<Int, Set<Char>>()) { map, segments ->
                 when {
                     segments.containsAll(fourPattern) && segments.containsAll(sevenPattern) -> map + (9 to segments)
                     segments.containsAll(sevenPattern) && ((segments - sevenPattern).size == 3) -> map + (0 to segments)
@@ -30,7 +30,7 @@ class Day8Part2 {
                     else -> throw IllegalArgumentException("sucks")
                 }
             }
-            val digitPatterns = obviousDigitPatterns + nonObviousDigitPatterns
+            val digitPatterns = obviousDigitToSegments + nonObviousDigitToSegments
             val patternToDigit = digitPatterns.entries.associateBy({ it.value }) { it.key }
             val outputValues = it.outputs.map { it.toSet() }.map { patternToDigit.getValue(it) }
             val output = outputValues[0] * 1000 + outputValues[1] * 100 + outputValues[2] * 10 + outputValues[3]
