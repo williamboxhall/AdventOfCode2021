@@ -1,5 +1,5 @@
 fun main() {
-    println(Day8().countObviousDigits(day8SampleInput))
+    println(Day8().countObviousDigits(day8Input))
 }
 
 class Day8 {
@@ -8,7 +8,7 @@ class Day8 {
     }
 }
 
-val day8SampleInput = """ecgabfd gfbe dgbeaf aeg gfbda eg bgdcaf efgdca abced eadgb | begf decgfa aeg eg
+val day8Input = """ecgabfd gfbe dgbeaf aeg gfbda eg bgdcaf efgdca abced eadgb | begf decgfa aeg eg
 ebfg bfgdea gaf gf baedgc dafec cfdabg ecfabgd fdgea dbaeg | gaedbc egbf dbgcea dagfebc
 cfadeg ca bacg dfabe dgcbf dbegafc dac afbdgc gcbedf bfcda | fbdac adbef bgcdfae dcagfe
 eag cdgfae cbdge ae fcgad eabdfg ecaf gefbadc dgafcb degca | dacbefg fcdage agdcf fedagb
