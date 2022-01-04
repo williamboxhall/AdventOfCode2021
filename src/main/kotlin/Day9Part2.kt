@@ -1,5 +1,5 @@
 fun main() {
-    println(Day9Part2().largestBasinsSize(day9SampleInput))
+    println(Day9Part2().largestBasinsSize(day9Input))
 }
 
 class Day9Part2 {
@@ -9,17 +9,21 @@ class Day9Part2 {
         val intersectingMinPoints = horizontalMinPoints intersect verticalMinPoints
 
         val basins = intersectingMinPoints.map {
-            traverse(it, emptySet(), matrix)
+            traverse(setOf(it), emptySet(), matrix)
         }
 
         return basins.map { it.size }.sortedDescending().take(3).reduce { a, b -> a * b }
     }
 
-    private fun traverse(from: Point, ignore: Set<Point>, matrix: List<List<Int>>): Set<Point> {
-        val surroundingPoints = matrix.surroundingPointsOff(from)
-        val newPoints = surroundingPoints - ignore
-        val ninesRemoved = newPoints.filter { it.h < 9 }
-        return (ninesRemoved + ninesRemoved.flatMap { traverse(it, ignore + ninesRemoved, matrix) }).toSet()
+    private tailrec fun traverse(from: Set<Point>, alreadySeen: Set<Point>, matrix: List<List<Int>>): Set<Point> {
+        return if (from.isEmpty()) {
+            alreadySeen
+        } else {
+            val surroundingPoints = from.flatMap { matrix.surroundingPointsOff(it) }.toSet()
+            val newPoints = surroundingPoints - alreadySeen
+            val ninesRemoved = newPoints.filter { it.h < 9 }.toSet()
+            traverse(ninesRemoved, alreadySeen + ninesRemoved, matrix)
+        }
     }
 
     private fun List<List<Int>>.surroundingPointsOff(point: Point): Set<Point> {
