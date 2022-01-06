@@ -26,16 +26,6 @@ class Day9Part2 {
         }
     }
 
-    private fun List<List<Int>>.surroundingPointsOff(point: Point): Set<Point> {
-        val maxY = this.size - 1
-        val maxX = this.first().size - 1
-        val north: Point? = if (point.y == 0) null else Point(point.x, point.y - 1, this[point.y - 1][point.x])
-        val south: Point? = if (point.y == maxY) null else Point(point.x, point.y + 1, this[point.y + 1][point.x])
-        val east: Point? = if (point.x == 0) null else Point(point.x - 1, point.y, this[point.y][point.x - 1])
-        val west: Point? = if (point.x == maxX) null else Point(point.x + 1, point.y, this[point.y][point.x + 1])
-        return setOf(north, south, east, west).filterNotNull().toSet()
-    }
-
     private fun horizontalMinPoints(matrix: List<List<Int>>, flipXY: Boolean) = matrix.flatMapIndexed { yIndex, row ->
         (row + Int.MAX_VALUE).windowed(2).foldIndexed(Accumulator(emptyList(), Int.MAX_VALUE)) { xIndex, acc, (prev, current) ->
             if (current > prev) {
@@ -50,6 +40,16 @@ class Day9Part2 {
             }
         }.points
     }
+}
+
+fun List<List<Int>>.surroundingPointsOff(point: Point): Set<Point> {
+    val maxY = this.size - 1
+    val maxX = this.first().size - 1
+    val north: Point? = if (point.y == 0) null else Point(point.x, point.y - 1, this[point.y - 1][point.x])
+    val south: Point? = if (point.y == maxY) null else Point(point.x, point.y + 1, this[point.y + 1][point.x])
+    val east: Point? = if (point.x == 0) null else Point(point.x - 1, point.y, this[point.y][point.x - 1])
+    val west: Point? = if (point.x == maxX) null else Point(point.x + 1, point.y, this[point.y][point.x + 1])
+    return setOf(north, south, east, west).filterNotNull().toSet()
 }
 
 val day9SampleInput = """2199943210
